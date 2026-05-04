@@ -23,7 +23,7 @@ export default function Home() {
       <section className="relative h-[600px] flex items-center justify-center">
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop')" }}
+          style={{ backgroundImage: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcbUnG-f9wW64YsRE3jjfRb7udJVa-aUKyTg&s')" }}
         ></div>
         <div className="absolute inset-0 bg-blue-950/70"></div>
         
@@ -41,6 +41,45 @@ export default function Home() {
             <Link to="/visi-misi" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur px-8 py-3 rounded-md font-medium text-lg transition-colors border border-white/30">
               Pelajari Lebih Lanjut
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            <div className="w-full md:w-1/2">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                {/* Gambar representasi sekolah. Bisa diganti dengan URL gambar asli SMA Kartika */}
+                <img 
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaCejyyN-MnCKL_7GbwQHXPKx9bkkiHhDP3g&s" 
+                  alt="Gedung SMA Kartika Jakarta Selatan" 
+                  className="w-full h-auto object-cover aspect-[4/3] hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-blue-900/10"></div>
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 space-y-6">
+              <div className="inline-block bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide">
+                Tentang SMA Kartika
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+                Membangun Karakter, <br/> Mengukir Prestasi
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                SMA Kartika Jakarta Selatan adalah institusi pendidikan menengah atas yang berkomitmen untuk memberikan pendidikan berkualitas tinggi. Kami berfokus pada pengembangan akademik sekaligus pembentukan karakter siswa yang tangguh, disiplin, dan berwawasan luas.
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Dengan fasilitas yang memadai dan tenaga pendidik yang profesional, kami siap mengantarkan generasi muda untuk meraih impian dan sukses di masa depan bersama nilai-nilai kebangsaan yang kuat.
+              </p>
+              <div className="pt-4">
+                <Link to="/visi-misi" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-lg group">
+                  Baca Sejarah dan Visi Misi 
+                  <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
