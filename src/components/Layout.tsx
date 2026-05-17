@@ -1,6 +1,6 @@
 import { Link, useLocation, useOutlet } from "react-router-dom";
 import { BookOpen, MapPin, Phone, Mail, Menu, X, Facebook, Instagram, Twitter } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -8,6 +8,10 @@ export default function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const currentOutlet = useOutlet();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const navItems = [
     { name: "Beranda", path: "/" },
