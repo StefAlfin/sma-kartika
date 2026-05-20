@@ -33,15 +33,15 @@ export default function VisiMisi() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Visi & Misi</h1>
-          <div className="w-24 h-1 bg-blue-600 mx-auto rounded"></div>
+          <div className="w-24 h-1 bg-green-600 mx-auto rounded"></div>
         </div>
 
         {/* Visi */}
         <div className="bg-white rounded-3xl p-10 shadow-sm mb-12 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 text-blue-50 opacity-10">
+          <div className="absolute top-0 right-0 p-8 text-green-50 opacity-10">
             <Eye size={200} />
           </div>
-          <div className="relative z-10 w-20 h-20 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
+          <div className="relative z-10 w-20 h-20 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
             <Eye size={40} className="-rotate-3" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Visi Kami</h2>
@@ -52,12 +52,12 @@ export default function VisiMisi() {
 
         {/* Misi */}
         <div className="bg-white rounded-3xl p-10 shadow-sm relative overflow-hidden">
-           <div className="absolute top-0 left-0 p-8 text-blue-50 opacity-10">
+           <div className="absolute top-0 left-0 p-8 text-green-50 opacity-10">
             <Target size={200} />
           </div>
           <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start">
             <div className="md:w-1/3">
-              <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 transform -rotate-3">
+              <div className="w-20 h-20 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 transform -rotate-3">
                 <Target size={40} className="rotate-3" />
               </div>
               <h2 className="text-3xl font-bold text-gray-900">Misi Kami</h2>
@@ -68,7 +68,7 @@ export default function VisiMisi() {
               <ul className="space-y-6">
                 {missions.map((item, i) => (
                   <li key={i} className="flex gap-4 items-start">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-sm">
                       {i + 1}
                     </div>
                     <p className="text-gray-700 text-lg pt-1">{item}</p>

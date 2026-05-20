@@ -22,13 +22,21 @@ export default function Fasilitas() {
 
   useEffect(() => {
     fetch('/api/facilities')
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new TypeError("Oops, API tidak merespon JSON, tapi HTML (kemungkinan di Vercel API belum ada)");
+        }
+        return res.json();
+      })
       .then(data => {
         setFacilities(data);
         setLoading(false);
       })
       .catch(err => {
         console.error("Failed to fetch facilities:", err);
+        setFacilities([]);
         setLoading(false);
       });
   }, []);
@@ -57,7 +65,7 @@ export default function Fasilitas() {
                   />
                 </div>
                 <div className="w-full md:w-3/5 p-6 flex flex-col">
-                  <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center mb-4">
                     {getIcon(item.iconName)}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{item.name}</h3>

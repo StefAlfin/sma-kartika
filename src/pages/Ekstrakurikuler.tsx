@@ -1,25 +1,54 @@
-import { Music, Code, PenTool, Dumbbell, Palette, Users, Globe, Book, X } from "lucide-react";
-import { useState } from "react";
+import { Music, Code, PenTool, Dumbbell, Palette, Users, Globe, Book, X, Trophy, Microscope, Monitor, Camera, Guitar, Gamepad2, Plane, Star, Layout, Library, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+
+const getIcon = (name: string, size = 24) => {
+  switch (name) {
+    case 'Users': return <Users size={size} />;
+    case 'Dumbbell': return <Dumbbell size={size} />;
+    case 'Music': return <Music size={size} />;
+    case 'Palette': return <Palette size={size} />;
+    case 'Book': return <Book size={size} />;
+    case 'Globe': return <Globe size={size} />;
+    case 'Code': return <Code size={size} />;
+    case 'PenTool': return <PenTool size={size} />;
+    case 'Trophy': return <Trophy size={size} />;
+    case 'Microscope': return <Microscope size={size} />;
+    case 'Monitor': return <Monitor size={size} />;
+    case 'Camera': return <Camera size={size} />;
+    case 'Layout': return <Layout size={size} />;
+    case 'Heart': return <Heart size={size} />;
+    case 'Star': return <Star size={size} />;
+    case 'Library': return <Library size={size} />;
+    default: return <Star size={size} />;
+  }
+};
 
 export default function Ekstrakurikuler() {
   const [selectedEkskul, setSelectedEkskul] = useState<any | null>(null);
+  const [ekskul, setEkskul] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const ekskul = [
-    { name: "Pramuka", category: "Wajib", icon: <Users size={24} />, description: "Membentuk karakter disiplin, mandiri, saling peduli, dan berjiwa kepemimpinan melalui kegiatan baris-berbaris, tali-temali, dan penjelajahan." },
-    { name: "Paskibra", category: "Baris-berbaris", icon: <Users size={24} />, description: "Melatih kedisiplinan, ketahanan fisik, kerja sama tim, dan memupuk rasa cinta tanah air melalui latihan formasi baris-berbaris tingkat lanjut." },
-    { name: "Palang Merah Remaja (PMR)", category: "Kesehatan", icon: <Users size={24} />, description: "Membekali siswa dengan keterampilan pertolongan pertama, pemeliharaan kesehatan, serta menumbuhkan jiwa sosial dan kemanusiaan." },
-    { name: "Basket", category: "Olahraga", icon: <Dumbbell size={24} />, description: "Mengembangkan bakat dan teknik bermain olahraga bola basket, membangun kerja sama tim, serta menjaga kebugaran fisik." },
-    { name: "Futsal", category: "Olahraga", icon: <Dumbbell size={24} />, description: "Wadah bagi siswa yang menggemari olahraga sepak bola di lapangan tertutup, difokuskan pada latihan teknik, penyelesaian taktik, dan sportivitas." },
-    { name: "Bulu Tangkis", category: "Olahraga", icon: <Dumbbell size={24} />, description: "Latihan rutin bulu tangkis yang bertujuan membina ketangkasan, kecepatan refleks, dan konsentrasi saat bertanding." },
-    { name: "Paduan Suara", category: "Kesenian", icon: <Music size={24} />, description: "Melatih teknik olah vokal, pengenalan notasi balok, harmonisasi nada, dan kekompakan dalam menyanyikan berbagai genre paduan suara." },
-    { name: "Teater", category: "Kesenian", icon: <Palette size={24} />, description: "Eksplorasi mendalam seni peran, tata panggung, olah tubuh, tata rias, dan ekspresi diri untuk melatih rasa percaya diri yang tinggi." },
-    { name: "Modern Dance", category: "Kesenian", icon: <Music size={24} />, description: "Menyalurkan bakat tari modern dengan penyusunan koreografi yang enerjik sehingga dapat meningkatkan kreativitas dan fleksibilitas gerak." },
-    { name: "Karya Ilmiah Remaja (KIR)", category: "Akademik", icon: <Book size={24} />, description: "Wadah bagi siswa untuk berpikir kritis, bereksperimen, dan berinovasi melalui penelitian dasar serta metode penulisan karya ilmiah." },
-    { name: "English Club", category: "Bahasa", icon: <Globe size={24} />, description: "Meningkatkan kemampuan berbicara dan mendengar bahasa Inggris melalui metode debate, public speech, dan aktivitas santai interaktif lainnya." },
-    { name: "Klub Komputer & Pemrograman", category: "Teknologi", icon: <Code size={24} />, description: "Belajar keterampilan coding tingkat dasar, perakitan robotika ringan, serta pemahaman akan literasi teknologi informasi yang terkini." },
-    { name: "Jurnalistik & Fotografi", category: "Media", icon: <PenTool size={24} />, description: "Belajar kaidah peliputan berita sekolah, teknik reportase mendalam, penulisan artikel, dan teknik menangkap momen estetis melalui lensa fotografis." },
-  ];
+  useEffect(() => {
+    fetch('/api/extracurriculars')
+      .then(async res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new TypeError("Oops, API tidak merespon JSON, tapi HTML (kemungkinan di Vercel API belum ada)");
+        }
+        return res.json();
+      })
+      .then(data => {
+        setEkskul(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch extracurriculars:", err);
+        setEkskul([]);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div className="py-16 bg-gray-50 min-h-screen">
@@ -31,23 +60,27 @@ export default function Ekstrakurikuler() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {ekskul.map((item, index) => (
-            <div 
-              key={index} 
-              onClick={() => setSelectedEkskul(item)}
-              className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all flex flex-col items-center text-center group cursor-pointer border border-transparent hover:border-blue-100"
-            >
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                {item.icon}
+        {loading ? (
+          <div className="text-center py-20 text-gray-500">Memuat data...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {ekskul.map((item, index) => (
+              <div 
+                key={index} 
+                onClick={() => setSelectedEkskul(item)}
+                className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all flex flex-col items-center text-center group cursor-pointer border border-transparent hover:border-green-100"
+              >
+                <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                  {getIcon(item.iconName)}
+                </div>
+                <h3 className="font-bold text-gray-900 text-lg mb-1">{item.name}</h3>
+                <span className="inline-block bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 rounded-full mt-2">
+                  {item.category}
+                </span>
               </div>
-              <h3 className="font-bold text-gray-900 text-lg mb-1">{item.name}</h3>
-              <span className="inline-block bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 rounded-full mt-2">
-                {item.category}
-              </span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -75,12 +108,12 @@ export default function Ekstrakurikuler() {
               </button>
               
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0">
-                  {selectedEkskul.icon}
+                <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center shrink-0">
+                  {getIcon(selectedEkskul.iconName, 24)}
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 leading-tight">{selectedEkskul.name}</h3>
-                  <span className="inline-block bg-blue-100 px-3 py-1 text-xs font-bold tracking-wide text-blue-700 rounded-full mt-2">
+                  <span className="inline-block bg-green-100 px-3 py-1 text-xs font-bold tracking-wide text-green-700 rounded-full mt-2">
                     {selectedEkskul.category}
                   </span>
                 </div>
@@ -94,7 +127,7 @@ export default function Ekstrakurikuler() {
               
               <button 
                 onClick={() => setSelectedEkskul(null)}
-                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition-colors"
+                className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-xl transition-colors"
               >
                 Tutup
               </button>

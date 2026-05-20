@@ -31,7 +31,7 @@ export default function Jurusan() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {majors.map(major => (
             <div key={major.id} className="bg-white rounded-3xl p-8 shadow-sm flex flex-col h-full hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6">
                 {major.icon}
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">{major.title}</h2>
@@ -41,13 +41,13 @@ export default function Jurusan() {
               
               <div>
                 <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Book size={18} className="text-blue-600" />
+                  <Book size={18} className="text-green-600" />
                   Mata Pelajaran Peminatan
                 </h3>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {major.subjects.map((subject, idx) => (
                     <li key={idx} className="bg-gray-50 rounded-lg px-4 py-3 text-sm text-gray-700 font-medium flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 bg-blue-600 rounded-full"></div>
+                      <div className="w-1.5 h-1.5 bg-green-600 rounded-full"></div>
                       {subject}
                     </li>
                   ))}
@@ -72,7 +72,7 @@ export default function Jurusan() {
                "Pendidikan Jasmani, Olahraga, dan Kesehatan",
                "Prakarya dan Kewirausahaan"
             ].map((subject, idx) => (
-              <span key={idx} className="bg-blue-50 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+              <span key={idx} className="bg-green-50 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
                 {subject}
               </span>
             ))}

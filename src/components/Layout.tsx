@@ -28,7 +28,7 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col font-sans bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-blue-900 text-white py-2 px-4 md:px-8 text-sm hidden md:flex justify-between items-center">
+      <div className="bg-green-900 text-white py-2 px-4 md:px-8 text-sm hidden md:flex justify-between items-center">
         <div className="flex gap-6">
           <span className="flex items-center gap-2"><Phone size={14} /> (021) 123-4567</span>
           <span className="flex items-center gap-2"><Mail size={14} /> info@smakartikajakarta.sch.id</span>
@@ -43,7 +43,8 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex-shrink-0 flex items-center gap-3">
-              <BookOpen className="h-10 w-10 text-blue-600" />
+              <img src="/logo.png" alt="Logo SMA Kartika" className="h-12 w-auto drop-shadow-sm" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.remove('hidden'); }} />
+              <BookOpen className="h-10 w-10 text-green-600 hidden" />
               <div className="flex flex-col">
                 <span className="font-bold text-xl text-gray-900 leading-tight">SMA KARTIKA</span>
                 <span className="text-xs text-gray-500 font-medium">JAKARTA SELATAN</span>
@@ -59,8 +60,8 @@ export default function Layout() {
                   className={cn(
                     "px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     location.pathname === item.path
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                      ? "bg-green-50 text-green-700"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-green-600"
                   )}
                 >
                   {item.name}
@@ -92,8 +93,8 @@ export default function Layout() {
                   className={cn(
                     "block px-3 py-2 rounded-md text-base font-medium",
                     location.pathname === item.path
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                      ? "bg-green-50 text-green-700"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-green-600"
                   )}
                 >
                   {item.name}
@@ -125,7 +126,8 @@ export default function Layout() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <BookOpen className="h-8 w-8 text-blue-400" />
+                <img src="/logo.png" alt="Logo SMA Kartika" className="h-10 w-auto" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.remove('hidden'); }} />
+                <BookOpen className="h-8 w-8 text-green-400 hidden" />
                 <span className="font-bold text-xl">SMA Kartika</span>
               </div>
               <p className="text-gray-400 text-sm">
@@ -141,11 +143,11 @@ export default function Layout() {
             <div>
               <h3 className="font-bold text-lg mb-4 text-white">Tautan Cepat</h3>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to="/visi-misi" className="hover:text-blue-400">Visi & Misi</Link></li>
-                <li><Link to="/jurusan" className="hover:text-blue-400">Jurusan</Link></li>
-                <li><Link to="/fasilitas" className="hover:text-blue-400">Fasilitas</Link></li>
-                <li><Link to="/ekstrakurikuler" className="hover:text-blue-400">Ekstrakurikuler</Link></li>
-                <li><Link to="/pendaftaran" className="hover:text-blue-400">Pendaftaran Online</Link></li>
+                <li><Link to="/visi-misi" className="hover:text-green-400">Visi & Misi</Link></li>
+                <li><Link to="/jurusan" className="hover:text-green-400">Jurusan</Link></li>
+                <li><Link to="/fasilitas" className="hover:text-green-400">Fasilitas</Link></li>
+                <li><Link to="/ekstrakurikuler" className="hover:text-green-400">Ekstrakurikuler</Link></li>
+                <li><Link to="/pendaftaran" className="hover:text-green-400">Pendaftaran Online</Link></li>
               </ul>
             </div>
             
@@ -153,15 +155,15 @@ export default function Layout() {
               <h3 className="font-bold text-lg mb-4 text-white">Kontak</h3>
               <ul className="space-y-3 text-sm text-gray-400">
                 <li className="flex gap-3">
-                  <MapPin size={18} className="text-blue-400 shrink-0" />
+                  <MapPin size={18} className="text-green-400 shrink-0" />
                   <span>Jl. Jenderal Sudirman No. 123, Kebayoran Baru, Jakarta Selatan</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone size={18} className="text-blue-400 shrink-0" />
+                  <Phone size={18} className="text-green-400 shrink-0" />
                   <span>(021) 123-4567</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail size={18} className="text-blue-400 shrink-0" />
+                  <Mail size={18} className="text-green-400 shrink-0" />
                   <span>info@smakartikajakarta.sch.id</span>
                 </li>
               </ul>
@@ -172,7 +174,7 @@ export default function Layout() {
               <p className="text-sm text-gray-400 mb-4">Dapatkan berita dan informasi terbaru dari sekolah.</p>
               <div className="flex">
                 <input type="email" placeholder="Email Anda" className="w-full px-3 py-2 text-sm text-gray-900 bg-white rounded-l focus:outline-none" />
-                <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r text-sm font-medium transition">Kirim</button>
+                <button className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-r text-sm font-medium transition">Kirim</button>
               </div>
             </div>
           </div>
