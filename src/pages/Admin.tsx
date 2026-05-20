@@ -104,9 +104,21 @@ function RegistrationsManager() {
   const fetchRegs = () => {
     setLoading(true);
     fetch("/api/registrations")
-      .then(r => r.json())
+      .then(async r => {
+         if (!r.ok) throw new Error(await r.text());
+         const contentType = r.headers.get("content-type");
+         if (!contentType || !contentType.includes("application/json")) {
+           throw new TypeError("Oops, API tidak merespon JSON, tapi HTML (kemungkinan di Vercel)");
+         }
+         return r.json();
+      })
       .then(data => {
         setRegs(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setRegs([]);
         setLoading(false);
       });
   };
@@ -213,10 +225,23 @@ function NewsManager() {
   const fetchNews = () => {
     setLoading(true);
     fetch("/api/news")
-      .then(r => r.json())
+      .then(async r => {
+         if (!r.ok) throw new Error(await r.text());
+         const contentType = r.headers.get("content-type");
+         if (!contentType || !contentType.includes("application/json")) {
+           throw new TypeError("Oops, API tidak merespon JSON, tapi HTML (kemungkinan di Vercel API belum ada)");
+         }
+         return r.json();
+      })
       .then(data => {
         setNews(data);
         setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error API:", err);
+        setNews([]);
+        setLoading(false);
+        alert("Gagal memuat berita. Error: " + err.message);
       });
   };
 
@@ -344,9 +369,21 @@ function FacilitiesManager() {
   const fetchFacilities = () => {
     setLoading(true);
     fetch("/api/facilities")
-      .then(r => r.json())
+      .then(async r => {
+         if (!r.ok) throw new Error(await r.text());
+         const contentType = r.headers.get("content-type");
+         if (!contentType || !contentType.includes("application/json")) {
+           throw new TypeError("Oops, API tidak merespon JSON, tapi HTML (kemungkinan di Vercel)");
+         }
+         return r.json();
+      })
       .then(data => {
         setFacilities(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setFacilities([]);
         setLoading(false);
       });
   };
@@ -476,10 +513,21 @@ function VisiMisiManager() {
 
   useEffect(() => {
     fetch('/api/config')
-      .then(res => res.json())
+      .then(async r => {
+         if (!r.ok) throw new Error(await r.text());
+         const contentType = r.headers.get("content-type");
+         if (!contentType || !contentType.includes("application/json")) {
+           throw new TypeError("Oops, API tidak merespon JSON, tapi HTML");
+         }
+         return r.json();
+      })
       .then(data => {
         if (data.vision) setVision(data.vision);
         if (data.missions) setMissions(data.missions);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Config fetch error", err);
         setLoading(false);
       });
   }, []);
