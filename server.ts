@@ -58,11 +58,21 @@ async function startServer() {
 
   // Insert sample news if empty
   const newsCount = db.prepare('SELECT COUNT(*) as count FROM news').get() as { count: number };
-  if (newsCount.count === 0) {
+  if (newsCount.count <= 2) {
+    db.exec(`DELETE FROM news;`);
     db.exec(`
       INSERT INTO news (title, content, imageUrl) VALUES
-      ('Prestasi Siswa SMA Kartika di Olimpiade Sains Nasional', 'Siswa kita berhasil meraih medali emas di ajang OSN tingkat nasional tahun ini. Prestasi ini sangat membanggakan sekolah kita.', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop'),
-      ('Penerimaan Peserta Didik Baru Tahun Ajaran 2026/2027', 'Pendaftaran SMA Kartika Jakarta Selatan telah dibuka untuk semua jurusan: MIPA dan IPS. Silakan kunjungi halaman pendaftaran online.', 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop')
+      ('Prestasi Siswa SMA Kartika di Olimpiade Sains Nasional', 'Siswa kita berhasil meraih medali emas di ajang OSN tingkat nasional tahun ini. Prestasi ini sangat membanggakan sekolah kita dan diharapkan dapat memotivasi siswa lain untuk berprestasi di bidang akademik dan non-akademik sesuai bakat masing-masing.', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop'),
+      ('Penerimaan Peserta Didik Baru Tahun Ajaran 2026/2027', 'Pendaftaran SMA Kartika Jakarta Selatan telah dibuka untuk semua jurusan: MIPA dan IPS. Silakan kunjungi halaman pendaftaran online. Kami menyambut putra-putri terbaik untuk bergabung dan berkembang bersama SMA Kartika.', 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop'),
+      ('Kegiatan PORSENI Antar Kelas Berjalan Meriah', 'Pekan Olahraga dan Seni (PORSENI) tahun ini berlangsung sukses dan meriah dengan berbagai lomba seperti basket, futsal, dan paduan suara. Acara ini berhasil mempererat tali persaudaraan antar siswa.', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=2090&auto=format&fit=crop'),
+      ('Semarak Peringatan Hari Pendidikan Nasional', 'Upacara bendera memperingati Hari Pendidikan Nasional diikuti oleh seluruh civitas akademika SMA Kartika dengan khidmat, dilanjutkan dengan penganugerahan siswa teladan dan guru berdedikasi.', 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop'),
+      ('Kunjungan Kampus ke Perguruan Tinggi Negeri Terkemuka', 'Siswa kelas XII mengadakan campus tour ke Universitas Indonesia dan Institut Teknologi Bandung. Kegiatan ini bertujuan memberikan gambaran kehidupan kampus dan memotivasi mereka untuk meraih mimpi besar.', 'https://images.unsplash.com/photo-1525926476834-3151480f0c05?q=80&w=2070&auto=format&fit=crop'),
+      ('Pemilihan Ketua OSIS Masa Bakti 2026/2027', 'Pemilu Ketua dan Wakil Ketua OSIS berjalan dengan lancar mengusung asas demokrasi. Terpilihlah kandidat nomor 2 yang diharapkan membawa program-program inovatif bagi siswa.', 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?q=80&w=2070&auto=format&fit=crop'),
+      ('Tim Basket SMA Kartika Sabet Juara 1 Tingkat Provinsi', 'Kerja keras dan latihan rutin membuahkan hasil. Tim Basket SMA Kartika berhasil mengalahkan belasan tim dari sekolah elit lainnya dalam ajang kejuaraan bergengsi ini.', 'https://images.unsplash.com/photo-1519861531473-920026eca493?q=80&w=2070&auto=format&fit=crop'),
+      ('Pameran Karya Seni Rupa Siswa Tahunan Gemilang', 'Ratusan karya seni berupa lukisan, patung, dan instalasi hasil karya siswa dipamerkan. Ajang ini merupakan wadah apresiasi tertinggi terhadap kreativitas seni anak muda.', 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto=format&fit=crop'),
+      ('Pelatihan Jurnalistik dan Literasi Digital', 'Ekstrakurikuler Jurnalistik mengadakan pelatihan penulisan berita dan pemanfaatan literasi digital agar siswa lebih bijak dalam menyaring informasi di era modern.', 'https://images.unsplash.com/photo-1455390582262-044cdead27d8?q=80&w=2070&auto=format&fit=crop'),
+      ('Pelaksanaan Ujian Sekolah Berbasis Komputer Sukses', 'Evaluasi akhir kegiatan belajar berupa Ujian Sekolah Berbasis Komputer (USBK) telah dilaksanakan dengan tertib dan teknis yang lancar tanpa kendala server.', 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop'),
+      ('Program Adiwiyata: Penanaman 1000 Pohon', 'Dalam rangka mendukung pelestarian lingkungan, sekolah kita melaksanakan program penanaman ribuan pohon peneduh dan tanaman hias di lingkungan sekolah.', 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2213&auto=format&fit=crop')
     `);
   }
 
