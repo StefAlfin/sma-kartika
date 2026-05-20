@@ -32,7 +32,29 @@ async function startServer() {
       status TEXT DEFAULT 'Pending',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+    CREATE TABLE IF NOT EXISTS facilities (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      description TEXT NOT NULL,
+      iconName TEXT,
+      imageUrl TEXT,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS config (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
   `);
+
+  // Insert sample config if empty
+  const configCount = db.prepare('SELECT COUNT(*) as count FROM config').get() as { count: number };
+  if (configCount.count === 0) {
+    db.exec(`
+      INSERT INTO config (key, value) VALUES
+      ('vision', '"Menjadi institusi pendidikan menengah atas yang unggul dalam akademik, terdepan dalam inovasi, serta mencetak lulusan yang berkarakter, berbudaya, dan berwawasan global pada tahun 2030."'),
+      ('missions', '["Menyelenggarakan proses pembelajaran yang inovatif, kreatif, dan berbasis teknologi.", "Meningkatkan kompetensi pendidik dan tenaga kependidikan secara berkelanjutan.", "Mengembangkan minat, bakat, dan potensi peserta didik melalui kegiatan ekstrakurikuler yang beragam.", "Menanamkan karakter disiplin, jujur, toleran, dan peduli lingkungan kepada seluruh warga sekolah.", "Membangun kemitraan yang kuat dengan orang tua, masyarakat, dan institusi terkait baik di dalam maupun luar negeri."]')
+    `);
+  }
 
   // Insert sample news if empty
   const newsCount = db.prepare('SELECT COUNT(*) as count FROM news').get() as { count: number };
@@ -41,6 +63,18 @@ async function startServer() {
       INSERT INTO news (title, content, imageUrl) VALUES
       ('Prestasi Siswa SMA Kartika di Olimpiade Sains Nasional', 'Siswa kita berhasil meraih medali emas di ajang OSN tingkat nasional tahun ini. Prestasi ini sangat membanggakan sekolah kita.', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop'),
       ('Penerimaan Peserta Didik Baru Tahun Ajaran 2026/2027', 'Pendaftaran SMA Kartika Jakarta Selatan telah dibuka untuk semua jurusan: MIPA dan IPS. Silakan kunjungi halaman pendaftaran online.', 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop')
+    `);
+  }
+
+  // Insert sample facilities if empty
+  const facilitiesCount = db.prepare('SELECT COUNT(*) as count FROM facilities').get() as { count: number };
+  if (facilitiesCount.count === 0) {
+    db.exec(`
+      INSERT INTO facilities (name, description, iconName, imageUrl) VALUES
+      ('Ruang Kelas Ber-AC', 'Ruang kelas yang nyaman, bersih, dan dilengkapi dengan pendingin ruangan, proyektor, serta akses Wi-Fi berkecepatan tinggi.', 'BookOpen', 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop'),
+      ('Perpustakaan Lengkap', 'Koleksi buku lengkap mulai dari buku pelajaran, fiksi, non-fiksi, ensiklopedi, hingga literatur digital dalam ruangan yang tenang.', 'Library', 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=2190&auto=format&fit=crop'),
+      ('Laboratorium Sains', 'Laboratorium Fisika, Kimia, dan Biologi dengan peralatan modern yang berstandar nasional.', 'FlaskConical', 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070&auto=format&fit=crop'),
+      ('Lapangan Olahraga', 'Fasilitas lapangan basket, voli, futsal, dan bulu tangkis yang terintegrasi di ruang terbuka maupun tertutup.', 'Activity', 'https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=2090&auto=format&fit=crop')
     `);
   }
 
@@ -70,6 +104,16 @@ async function startServer() {
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: 'Failed to delete news' });
+    }
+  });
+
+  app.put('/api/news/:id', async (req, res) => {
+    try {
+      const { title, content, imageUrl } = req.body;
+      db.prepare('UPDATE news SET title = ?, content = ?, imageUrl = ? WHERE id = ?').run([title, content, imageUrl, req.params.id]);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update news' });
     }
   });
 
@@ -110,6 +154,78 @@ async function startServer() {
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: 'Failed to delete registration' });
+    }
+  });
+
+  app.get('/api/facilities', async (req, res) => {
+    try {
+      const data = db.prepare('SELECT * FROM facilities ORDER BY createdAt DESC').all();
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch facilities' });
+    }
+  });
+
+  app.post('/api/facilities', async (req, res) => {
+    try {
+      const { name, description, iconName, imageUrl } = req.body;
+      const result = db.prepare('INSERT INTO facilities (name, description, iconName, imageUrl) VALUES (?, ?, ?, ?)').run([name, description, iconName, imageUrl]);
+      res.json({ id: result.lastInsertRowid, success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to create facility' });
+    }
+  });
+
+  app.put('/api/facilities/:id', async (req, res) => {
+    try {
+      const { name, description, iconName, imageUrl } = req.body;
+      db.prepare('UPDATE facilities SET name = ?, description = ?, iconName = ?, imageUrl = ? WHERE id = ?').run([name, description, iconName, imageUrl, req.params.id]);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update facility' });
+    }
+  });
+
+  app.delete('/api/facilities/:id', async (req, res) => {
+    try {
+      db.prepare('DELETE FROM facilities WHERE id = ?').run(req.params.id);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete facility' });
+    }
+  });
+
+  app.get('/api/config', async (req, res) => {
+    try {
+      const data = db.prepare('SELECT * FROM config').all() as { key: string, value: string }[];
+      const config: any = {};
+      data.forEach(item => {
+        try {
+          config[item.key] = JSON.parse(item.value);
+        } catch (e) {
+          config[item.key] = item.value;
+        }
+      });
+      res.json(config);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch config' });
+    }
+  });
+
+  app.put('/api/config', async (req, res) => {
+    try {
+      const { vision, missions } = req.body;
+      const stmt = db.prepare('INSERT INTO config (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value');
+      
+      const transaction = db.transaction(() => {
+        if (vision !== undefined) stmt.run('vision', JSON.stringify(vision));
+        if (missions !== undefined) stmt.run('missions', JSON.stringify(missions));
+      });
+      
+      transaction();
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update config' });
     }
   });
 

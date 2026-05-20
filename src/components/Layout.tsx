@@ -18,6 +18,7 @@ export default function Layout() {
     { name: "Visi & Misi", path: "/visi-misi" },
     { name: "Jurusan", path: "/jurusan" },
     { name: "Ekstrakurikuler", path: "/ekstrakurikuler" },
+    { name: "Fasilitas", path: "/fasilitas" },
     { name: "Galeri", path: "/galeri" },
     { name: "Berita", path: "/berita" },
     { name: "Kontak", path: "/kontak" },
@@ -33,7 +34,7 @@ export default function Layout() {
           <span className="flex items-center gap-2"><Mail size={14} /> info@smakartikajakarta.sch.id</span>
         </div>
         <div className="flex gap-4">
-          <Link to="/admin" className="hover:text-blue-200">Admin Login</Link>
+          {/* Admin link hidden */}
         </div>
       </div>
 
@@ -98,13 +99,6 @@ export default function Layout() {
                   {item.name}
                 </Link>
               ))}
-              <Link
-                to="/admin"
-                onClick={() => setIsMenuOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-blue-600"
-              >
-                Admin Login
-              </Link>
             </div>
           </div>
         )}
@@ -149,6 +143,7 @@ export default function Layout() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link to="/visi-misi" className="hover:text-blue-400">Visi & Misi</Link></li>
                 <li><Link to="/jurusan" className="hover:text-blue-400">Jurusan</Link></li>
+                <li><Link to="/fasilitas" className="hover:text-blue-400">Fasilitas</Link></li>
                 <li><Link to="/ekstrakurikuler" className="hover:text-blue-400">Ekstrakurikuler</Link></li>
                 <li><Link to="/pendaftaran" className="hover:text-blue-400">Pendaftaran Online</Link></li>
               </ul>

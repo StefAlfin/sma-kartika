@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronRight, Award, Users, BookOpen } from "lucide-react";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 export default function Home() {
   const [news, setNews] = useState<any[]>([]);
@@ -140,7 +142,7 @@ export default function Home() {
                 </div>
                 <div className="p-6 flex-grow flex flex-col">
                   <div className="text-sm text-blue-600 font-medium mb-2">
-                    {new Date(item.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    {format(new Date(item.createdAt), "dd MMMM yyyy", { locale: id })}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3">

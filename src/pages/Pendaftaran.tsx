@@ -13,16 +13,41 @@ export default function Pendaftaran() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+    if (formErrors[name]) {
+      setFormErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    
+    // Client-side validation
+    const errors: { [key: string]: string } = {};
+    if (!/^\d+$/.test(formData.nisn)) {
+      errors.nisn = "NISN hanya boleh berisi angka (0-9).";
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Format email tidak valid.";
+    }
+    if (!/^(\+?62|0)\d{9,13}$/.test(formData.phone)) {
+      errors.phone = "Format nomor HP tidak valid (harus 10-14 digit, diawali 0 atau +62).";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setError("Terdapat kesalahan pada isian formulir. Mohon periksa kembali.");
+      return;
+    }
+
+    setFormErrors({});
     setLoading(true);
     setError("");
     
@@ -103,9 +128,10 @@ export default function Pendaftaran() {
                     name="nisn"
                     value={formData.nisn}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" 
+                    className={`w-full px-4 py-3 rounded-xl border ${formErrors.nisn ? 'border-red-500 focus:ring-red-200' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 transition-all outline-none`} 
                     placeholder="Nomor Induk Siswa Nasional"
                   />
+                  {formErrors.nisn && <p className="text-sm text-red-500 mt-1">{formErrors.nisn}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Email Aktif</label>
@@ -115,9 +141,10 @@ export default function Pendaftaran() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" 
+                    className={`w-full px-4 py-3 rounded-xl border ${formErrors.email ? 'border-red-500 focus:ring-red-200' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 transition-all outline-none`} 
                     placeholder="budi@example.com"
                   />
+                  {formErrors.email && <p className="text-sm text-red-500 mt-1">{formErrors.email}</p>}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Nomor HP/WhatsApp</label>
@@ -126,9 +153,10 @@ export default function Pendaftaran() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" 
+                    className={`w-full px-4 py-3 rounded-xl border ${formErrors.phone ? 'border-red-500 focus:ring-red-200' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'} focus:ring-2 transition-all outline-none`} 
                     placeholder="08123456789"
                   />
+                  {formErrors.phone && <p className="text-sm text-red-500 mt-1">{formErrors.phone}</p>}
                 </div>
               </div>
 

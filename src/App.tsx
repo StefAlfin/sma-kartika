@@ -13,6 +13,7 @@ import Kontak from "./pages/Kontak";
 import Galeri from "./pages/Galeri";
 import Berita from "./pages/Berita";
 import Pendaftaran from "./pages/Pendaftaran";
+import Fasilitas from "./pages/Fasilitas";
 import Admin from "./pages/Admin";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="kontak" element={<Kontak />} />
           <Route path="galeri" element={<Galeri />} />
           <Route path="berita" element={<Berita />} />
+          <Route path="fasilitas" element={<Fasilitas />} />
           <Route path="pendaftaran" element={<Pendaftaran />} />
           <Route path="admin" element={<Admin />} />
         </Route>
