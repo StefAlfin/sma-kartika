@@ -48,13 +48,15 @@ async function startServer() {
 
   // Insert sample config if empty
   const configCount = db.prepare('SELECT COUNT(*) as count FROM config').get() as { count: number };
-  if (configCount.count === 0) {
+  if (configCount.count < 2) {
+    db.exec(`DELETE FROM config;`);
     db.exec(`
       INSERT INTO config (key, value) VALUES
       ('vision', '"Menjadi institusi pendidikan menengah atas yang unggul dalam akademik, terdepan dalam inovasi, serta mencetak lulusan yang berkarakter, berbudaya, dan berwawasan global pada tahun 2030."'),
       ('missions', '["Menyelenggarakan proses pembelajaran yang inovatif, kreatif, dan berbasis teknologi.", "Meningkatkan kompetensi pendidik dan tenaga kependidikan secara berkelanjutan.", "Mengembangkan minat, bakat, dan potensi peserta didik melalui kegiatan ekstrakurikuler yang beragam.", "Menanamkan karakter disiplin, jujur, toleran, dan peduli lingkungan kepada seluruh warga sekolah.", "Membangun kemitraan yang kuat dengan orang tua, masyarakat, dan institusi terkait baik di dalam maupun luar negeri."]')
     `);
   }
+
 
   // Insert sample news if empty
   const newsCount = db.prepare('SELECT COUNT(*) as count FROM news').get() as { count: number };
@@ -79,6 +81,7 @@ async function startServer() {
   // Insert sample facilities if empty
   const facilitiesCount = db.prepare('SELECT COUNT(*) as count FROM facilities').get() as { count: number };
   if (facilitiesCount.count === 0) {
+    db.exec(`DELETE FROM facilities;`);
     db.exec(`
       INSERT INTO facilities (name, description, iconName, imageUrl) VALUES
       ('Ruang Kelas Ber-AC', 'Ruang kelas yang nyaman, bersih, dan dilengkapi dengan pendingin ruangan, proyektor, serta akses Wi-Fi berkecepatan tinggi.', 'BookOpen', 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop'),
